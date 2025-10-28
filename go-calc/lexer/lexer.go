@@ -1,5 +1,10 @@
-package token
+package lexer
 
+import (
+	"go-calc/token"
+)
+
+// 词法解析器
 type Lexer struct {
 	input        string
 	position     int
@@ -7,6 +12,7 @@ type Lexer struct {
 	ch           rune
 }
 
+// 词法分析器入口，返回一个lexer实例
 func NewLexer(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
@@ -15,7 +21,7 @@ func NewLexer(input string) *Lexer {
 
 func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
-		l.ch = 0 // 读到末尾
+		l.ch = 0
 	} else {
 		l.ch = rune(l.input[l.readPosition])
 	}
@@ -23,35 +29,33 @@ func (l *Lexer) readChar() {
 	l.readPosition++
 }
 
-// NextToken 读取并返回下一个 Token
-func (l *Lexer) NextToken() Token {
-	var tok Token
+func (l *Lexer) NextToken() token.Token {
+	var tok token.Token
 
 	l.skipWhitespace()
 
 	switch l.ch {
 	case '+':
-		tok = Token{Type: PLUS, Literal: string(l.ch)}
+		tok = token.Token{Type: token.PLUS, Literal: string(l.ch)}
 	case '-':
-		tok = Token{Type: MINUS, Literal: string(l.ch)}
+		tok = token.Token{Type: token.MINUS, Literal: string(l.ch)}
 	case '*':
-		tok = Token{Type: ASTERISK, Literal: string(l.ch)}
+		tok = token.Token{Type: token.ASTERISK, Literal: string(l.ch)}
 	case '/':
-		tok = Token{Type: SLASH, Literal: string(l.ch)}
+		tok = token.Token{Type: token.SLASH, Literal: string(l.ch)}
 	case 0:
-		tok = Token{Type: EOF, Literal: ""}
+		tok = token.Token{Type: token.EOF, Literal: ""}
 	default:
 		if isDigit(l.ch) {
-			tok.Type = NUMBER
+			tok.Type = token.NUMBER
 			tok.Literal = l.readNumber()
 			return tok
 		} else {
-			tok = Token{Type: ILLEGAL, Literal: string(l.ch)}
+			tok = token.Token{Type: token.ILLEGAL, Literal: string(l.ch)}
 		}
-
 	}
 
-	l.readChar() // 关键：向前推进一个字符
+	l.readChar()
 	return tok
 }
 

@@ -2,14 +2,19 @@ package main
 
 import (
 	"fmt"
-	"go-calc/token"
+	"go-calc/lexer"
+	"go-calc/parser"
 )
 
 func main() {
-	input := "12 + 34 - 5 * 6 / 3 aw"
-	lexer := token.NewLexer(input)
+	input := "12 + 3 * 2 / 3 + 2/3 + 2 + 2 / 5 / 4 * 2"
+	lexer := lexer.NewLexer(input)
 
-	for tok := lexer.NextToken(); tok.Type != token.EOF; tok = lexer.NextToken() {
-		fmt.Printf("%+v\n", tok)
-	}
+	parser := parser.New(lexer)
+
+	ast := parser.ParseExpression()
+
+	fmt.Printf("Input: %s\n", input)
+	fmt.Printf("AST: %v\n", ast.String())
+
 }
