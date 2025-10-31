@@ -6,8 +6,6 @@ import (
 	"go-calc/token"
 )
 
-// --- Node 接口和节点定义 (你已有的代码) ---
-
 // 通用接口，用于调试
 type Node interface {
 	String() string
