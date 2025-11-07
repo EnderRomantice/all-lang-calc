@@ -7,7 +7,8 @@ import (
 )
 
 func main() {
-	input := "12 + 3 * 2 / 3 + 2/3 + 2 + 2 / 5 / 4 * 2"
+	input := "12 + 3 * 2 / 3 + 2 / 3 + 2 + 2 / 5 / 4 * 2 + 1 / 2"
+
 	lexer := lexer.NewLexer(input)
 
 	parser := parser.New(lexer)
@@ -15,6 +16,7 @@ func main() {
 	ast := parser.ParseExpression()
 
 	fmt.Printf("Input: %s\n", input)
+
 	fmt.Printf("AST: %v\n", ast.String())
 
 }
