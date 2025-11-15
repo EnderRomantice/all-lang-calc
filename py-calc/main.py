@@ -1,12 +1,11 @@
-from token.token import TOKEN, Lexer
+from lexer.lexer import Lexer
+from parser.parser import Parser
 
 if __name__ == "__main__":
-    input_exp = input("input expression: ")
+    input_exp = "1 + dddddddda2    awd * 3 +  awd    daw 4 / 5            "
 
     lexer = Lexer(input_exp)
 
-    while True:
-        tk = lexer.readToken()
-        if tk.type == TOKEN[0]:
-            break
-        print(f"type: {tk.type} value: {tk.value}")
+    ast = Parser(lexer)
+
+    ast.parse_expr()

@@ -21,43 +21,43 @@ class Lexer:
         self.pos = 0
         self.cr = self.input[self.pos]
 
-    def readToken(self):
-        self._readSpace()
+    def read_token(self) -> Token:
+        self._read_space()
 
-        isNum = []
+        is_num = []
         while self.cr is not None and "0" <= self.cr <= "9":
-            isNum.append(self.cr)
-            self._nextChar()
+            is_num.append(self.cr)
+            self._next_char()
 
-        if isNum:
-            return Token(TOKEN[1], int("".join(isNum)))
+        if is_num:
+            return Token(TOKEN[1], int("".join(is_num)))
 
         match self.cr:
             case "+":
-                self._nextChar()
+                self._next_char()
                 return Token(TOKEN[2], "+")
             case "-":
-                self._nextChar()
+                self._next_char()
                 return Token(TOKEN[3], "-")
             case "*":
-                self._nextChar()
+                self._next_char()
                 return Token(TOKEN[4], "*")
             case "/":
-                self._nextChar()
+                self._next_char()
                 return Token(TOKEN[5], "/")
             case None:
                 return Token(TOKEN[0], None)
 
             case _:
                 bad = self.cr
-                self._nextChar()
+                self._next_char()
                 return Token(TOKEN[6], bad)
 
-    def _readSpace(self):
+    def _read_space(self):
         while self.pos != len(self.input) - 1 and self.cr == " ":
-            self._nextChar()
+            self._next_char()
 
-    def _nextChar(self):
+    def _next_char(self):
         self.pos += 1
 
         if self.pos >= len(self.input):
